@@ -1,0 +1,122 @@
+\documentclass[12pt]{article}
+
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry} 
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{bm}
+\usepackage[fleqn]{amsmath}
+\usepackage{amssymb,amsmath}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\geometry{letterpaper}
+\linespread{1.1}% \geometry{landscape} % rotated page geometry
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\title{CE 264 Problem Set 1: Behavior and Policy}
+\date{30 Jan. 2018} 
+\author{Franklin Zhao (3033030808)\\ Ruitong Zhu \ \  (3033103852)}
+
+\begin{document}
+	
+	\maketitle
+	\renewcommand\theequation{\arabic{equation}}
+	\renewcommand{\figurename}{Fig.}
+	\renewcommand\thesection{Part \Roman{section}}
+	\renewcommand\thesubsection{\arabic{subsection}.}
+	\onehalfspacing
+	
+\section{Research Project Brainstorming}
+\subsection{Research question descriptrion}
+With fuel price and parking fees rising, the cost of driving around the city is getting much higher. Since costs always have a large impact on consumers, we would like to study how will the high driving costs influence the choice of transportation mode as well as the transit ridership.
+\subsection{Results of insterest}
+\begin{itemize}[noitemsep, topsep=0pt, leftmargin=*]
+\item The trend of driving cost throughout the years, taking into account the fuel price, parking fees and the like. 
+\item The record of transit ridership over the years.
+\item The proportion of people using each different transportation mode and its time history data as well.
+\end{itemize}
+\subsection{Potential behavioral response}
+From our own perspective, we would try to avoid driving if the costs went really high. Therefore, we are expecting that the trend of people using transit, represented by the transit ridership, is positively related to the driving price, which means that the rising driving costs drag people out of cars, and more people tend to travel by public transportation.\\\\ 
+There might be other responses. For example, people with higher income or inflexible work schedules might be indifferent with the rising costs. The limitations of public transportation may also contribute to such choice. This would make the proportion of people using each transportation mode stay still over the past years despite the rising driving costs, which means that cost is not a factor that people would consider while choosing transportation modes.\\\\
+Also, due to the variance of parking fees across the city, people might come up with new alternatives like park and ride option, where they use private automobile for transit access. Such phenomenon makes it even harder to analyze the given data.\\\\
+From Ng's study \hyperref[ref:Ng]{(Ng 2014)} on the influence of parking pricing on transportation mode choice in campus, we found out that mode shift is more likely to occur for medium income respondents while people with lower income would not change their transportation behavior significantly.
+\subsection{Literature review}
+\onehalfspacing
+The paper we studied was accomplished by Proulx et al. \hyperref[ref:Pr]{(Proulx et al. 2014)} It is a Transportation Research journal and the authors were researchers in Department of City and Regional Planning at UC Berkeley.\\\\
+This paper aimed to find out the impact of transportation policy changes (i.e., increasing the parking fees and offering transit fare subsidies) on the transportation mode choice at UC Berkeley. The research was implemented in three steps: First, the authors did a survey on biennial housing and transportation at UC Berkeley. Second, based on data from the survey, they applied two models (i.e., Multinomial Logit and Nested Logit) to interpret the mode and parking choices of the commuters. Finally, they chose the Nest Logit model to analyze and forecast policies. For the first step, the survey consists of questions on commute modes to campus, opinions on the influence factors, and housing status. 5385 responses were collected. For the second step, the samples were divided into 2 parts: 3371 calibration subsamples and 814 validation subsamples. In both models, the utility functions took a form of linear-in-parameters, and root mean square deviations (RMSD) were calculated for each model. Results showed that the most significant impact factors for mode choice were travel time and costs, gender, student status, whether senior citizen, and home location distribution. For the last step, cost effectiveness was evaluated based on basic cost estimates. Four scenarios were proposed: income-tiered permit, larger student permit, break-even, and a balanced scenario that takes into account the other scenarios. The last scenario was proved the best one since it would influence much more on driving demand and was the only one that could reduce costs to the university. To motivate a significant mode change from driving, both increasing parking fees and incentives to use other modes should be implemented.\\\\
+The paper was well-organized in data acquisition, modeling and policy analysis. Two classical models were utilized and compared to produce good results, and the shortcoming of the Multinomial Logit model was pointed out. The policy analysis part provided thorough explanations for the four scenarios based on Nest Logit model. The result of this study is inspiring, and could be a very useful guidance for the parking policy revision at UC Berkeley, or other institutions. However, several limitations of this study could be improved: Data is insufficient so that several important alternative modes cannot be modeled (e.g., mixed trip); Large deviations may not be modeled accurately since there was no supply model; Cost estimation in the policy analysis did not take into account overhead cost which could be a factor which is not negligible.\\\\
+This research is similar to what we were thinking about. If we are going to study the impact of fuel price on transportation modes within an area, similar models could be utilized, while data may be harder to collect. Also, we could compare the modes in different areas (but with similar functions; e.g., Berkeley and MIT) based on the driving cost for policy analysis. 
+\newpage
+\section{Getting up and Running with Pylogit}
+\textbf{The output is printed as follows:}
+\begin{Verbatim}[fontsize=\small, commandchars=\\\{\}]
+Log-likelihood at zero: -2,115.1955
+Initial Log-likelihood: -2,115.1955
+Estimation Time for Point Estimation: 0.05 seconds.
+Final log-likelihood: -1,713.6303
+\end{Verbatim}
+\begin{Verbatim}[fontsize=\scriptsize, commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}1}]:}
+	Multinomial Logit Model Regression Results                    
+	===================================================================================
+	Dep. Variable:                      CHOICE   No. Observations:                2,304
+	Model:             Multinomial Logit Model   Df Residuals:                    2,296
+	Method:                                MLE   Df Model:                            8
+	Date:                     Tue, 30 Jan 2018   Pseudo R-squ.:                   0.190
+	Time:                             12:24:12   Pseudo R-bar-squ.:               0.186
+	AIC:                             3,443.261   Log-Likelihood:             -1,713.630
+	BIC:                             3,489.200   LL-Null:                    -2,115.196
+	==================================================================================================================
+							    coef      std err       z        P>|z|      [0.025      0.975]
+	------------------------------------------------------------------------------------------------------------------
+	ASC Train                                          0.9417      0.248      3.792      0.000       0.455       1.428
+	ASC Metro                                          0.9847      0.236      4.164      0.000       0.521       1.448
+	Travel Time, units:hrs (Train and Metro)          -0.4136      0.073     -5.704      0.000      -0.556      -0.271
+	Travel Time, units:hrs (Car)                      -0.0374      0.040     -0.931      0.352      -0.116       0.041
+	Travel Cost, units:hundredth (Train and Metro)    -0.4177      0.152     -2.745      0.006      -0.716      -0.119
+	Travel Cost, units:hundredth (Car)                -2.2127      0.325     -6.809      0.000      -2.850      -1.576
+	Headway, units:hrs, (Train)                       -0.3861      0.077     -4.992      0.000      -0.538      -0.235
+	Headway, units:hrs, (Metro)                       -0.1821      0.327     -0.556      0.578      -0.824       0.460
+	==================================================================================================================
+\end{Verbatim}
+\section*{Contributions}
+\setlength{\mathindent}{0cm}
+\setlength{\abovedisplayskip}{0pt}
+\begin{align*}
+\textbf{Franklin Zhao:} &\  \text{Part\ I-4\ \&\ Part II}\\
+\textbf{Ruitong Zhu:} &\  \text{Part\ I-1,2,3}
+\end{align*}
+\section*{References}
+\begin{itemize}[noitemsep, topsep=0pt]
+\item[{[1]}]\label{ref:Ng} Ng, Wei-Shiuen. \textit{Assessing the Impact of Parking Pricing on Transportation Mode Choice and Behavior.} University of California, Berkeley, 2014.
+\item[{[2]}]\label{ref:Pr} Proulx, Frank, Brian Cavagnolo, and Mariana Torres-Montoya. ``Impact of parking prices and transit fares on mode choice at the University of California, Berkeley." \textit{Transportation Research Record: Journal of the Transportation Research Board} 2469 (2014): 41-48.
+\end{itemize}
+\end{document}
