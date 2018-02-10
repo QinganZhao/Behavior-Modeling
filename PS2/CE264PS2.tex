@@ -1,0 +1,275 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry} 
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{float}
+\usepackage{bm}
+%\usepackage[fleqn]{amsmath}
+\usepackage{amssymb,amsmath}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{tabularx}
+\usepackage{diagbox}
+\geometry{letterpaper}
+\linespread{1.1}% \geometry{landscape} % rotated page geometry
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+
+%\setlength{\droptitle}{-5em}
+\title{CE 264 Problem Set 2: Specification, Estimation, and Testing of Binary Choice Models}
+\date{8 Feb. 2018} 
+\author{Franklin Zhao (3033030808)\\ Ruitong Zhu \ \  (3033103852)}
+
+\begin{document}
+	
+	\maketitle
+	\renewcommand\theequation{\arabic{equation}}
+	\renewcommand{\figurename}{Fig.}
+	\renewcommand\thesection{Part \arabic{section}}
+	\renewcommand\thesubsection{\arabic{subsection}.}
+	%\onehalfspacing
+	
+\section{Model Development}
+\subsection{\small{What are your a-priori expectations about the relationships between the variables in the dataset and the choice of one itinerary versus another? How are the various variables expected to affect the utilities of each itinerary?}}
+In our a-priori expectations, the choice of itineraries depends on a linear combination of some important variables in the dataset, including air fare, travel time, number of connections and the FFP membership of a certain company. These are basically the factors we would take into account when choosing an itinerary. Since we prefer flights with fewer connections, less travel time and lower price, we would expect these three factors are negatively related to the utility of a certain flight. Also we would expect people to choose flights provided by the company of which they have membership. Therefore the membership should affect the utility positively.
+\subsection{\small{What model specification corresponds to your a-priori hypotheses? Show the equation.}}
+The utility equation for our a-priori hypotheses is shown in Equation~(\ref{eq:airUt}), which is a linear combination of a few factors with generous parameters across alternatives.
+\begin{equation}\label{eq:airUt}
+U_a=\beta_C\times Connections+\beta_T\times TravelTime+\beta_F\times Fare+\beta_M\times Membership
+\end{equation}
+\subsection{\small{What is your ``best" model specification? Show the equation and use well-defined variables with “meaningful” names with a brief description of each variable.}}
+The equation and variables of the ``best" model is shown in Equation~(\ref{eq:bestModel}) and Table~\ref{tb:p1var}.
+\begin{equation}\label{eq:bestModel}
+\begin{array}{ll}
+U_{b1}=&\beta_c\times Connections_{A1}+\beta_m\times Membership_{A1}+\beta_d\times Departure+\beta_a\times\\& Affordability+\beta_v\times UnitePrice+\beta_p\times Performance+\beta_t\times Time\\
+U_{b2}=&\beta_c\times Connections_{A2}+\beta_m\times Membership_{A2}+\beta_d\times Departure+\beta_a\times\\& Affordability+\beta_v\times UnitePrice+\beta_p\times Performance+\beta_t\times Time\\
+\end{array}
+\end{equation}
+\textbf{Variable Description:}\\
+$\bf{\textbf{Connections}_{Ai}}$\textbf{:} With alternative specific parameters, representing the number of connections during the flight for alternative $i$.\\
+$\bf{\textbf{Membership}_{Ai}}$\textbf{:} With alternative specific parameters, representing the level of FFP membership for corresponding airline for alternative $i$ (1: Not a member, 2: Basic member, 3: Elite member).\\
+\textbf{Departure:} Departure time for the flight.\\
+\textbf{Affordability:} $Fare/Income^{Payment}$, a combined variable describing whether the ticket is affordable for a certain person. $Payment$ is categorical: 1 = I paid, personally, 2 = My company paid or reimbursed me 3 = It was free through the airline (either through a frequent flyer program, a voucher or from getting bumped), 4 = Family or friend, 5 = Other.\\
+\textbf{UnitPrice:} $Fare/ClassTicket$, a combined variable describing the price of the ticket, taking into account the class of the ticket. $ClassTicket$ is categorical: 1 = Economy or coach, 2 = Premium economy, 3 = Business, 4 = First Class.\\
+\textbf{Performace:} $Performance/Purpose$, a variable describing the on-time performance of an airline and whether a customer values it. $Purpose$: Trip purpose, categorical variable: 1 = Business, 2 = Attend conference, 3 = Vacation, 4 = Visit friends or relatives, 5 = Attend school, 6 = Other.\\
+\textbf{Time:} $TravelTime\times Age$, a variable describing the modulated travel time. $Age$, categorical variable: 1 = 15-19, 2 = 20-24, 3 = 25-34, 4 = 35-44, 5 = 45-54, 6 = 55-64, 7 = 65-74, 8 = 75 years or older.
+\begin{table}[H]
+	\centering
+	\caption{\label{tb:p1var}Variables for the ``best" model}
+	\vspace{5pt}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		Name & \multicolumn{1}{c|}{Unit}  & \multicolumn{1}{c|}{Estimate} & \multicolumn{1}{c|}{T-stats} & \multicolumn{1}{c|}{P-value}\\
+		\hline
+		$\text{Connections}_{Ai}$ & \diagbox[height=1.2em, width=11em] & A1: -0.6651; A2: -0.6755 & 12.639 & 0.000 \\
+		\hline
+		$\text{Membership}_{Ai}$ & \diagbox[height=1.2em, width=11em] & A1: 0.4876; A2: -0.4134 & 10.271 & 0.000 \\
+		\hline
+		Departure & Hours after midnight & 0.0283 & 3.063 & 0.002 \\
+		\hline
+		Affordability & \diagbox[height=1.2em, width=11em] & 0.0023 & 2.740 & 0.006 \\
+		\hline
+		UnitPrice & \$100 & -0.0085 & 25.660 & 0.000 \\
+		\hline
+		Performance & \diagbox[height=1.2em, width=11em] & 0.2335 & 7.626 & 0.000 \\
+		\hline
+		Time & Hours & -0.0527 & 7.072 & 0.000 \\
+		\hline
+	\end{tabular}
+\end{table}
+\vspace{-15pt}
+*Variables are generous across the alternatives if not specified.
+\subsection{\small{Does your ``best" model match your a-priori expectations?
+}}
+Those two models are not perfect match but they do share some common factors. For example, both of the models have the variable `Membership' and `Connections'.
+\subsection{\small{Does your ``best" model include the factors that you think are important in the decision?
+}}
+Yes. The ``best" model includes all the four factors we have in our a-priori hypotheses though in a different way. As mentioned above, both models share the some identical variables. Besides, for the variables ``Fare" and ``travel\_time", these two factors also appear in the model but are converted as a part of a newly combined variable. For example, the factor ``Fare" has been combined with another factor ``income" into a new factor ``Affordability" of the linear model.\\\\
+Yet the ``best" model also excludes some factors we think might also be influential, though might be not as important as others, like the ``arrival\_time", since arrival time can be something we would consider. we prefer to take flights arriving in the afternoon or evening, especially for a trip.
+\subsection{\small{What heterogeneity is captured in your model? What heterogeneity is not captured by your model? Is heterogeneity adequately represented in your model?}}
+The heterogeneity captured in the model includes the age, income, purpose, payment method, FFP membership and class of tickets of customers, and the only heterogeneity factors we neglected in the model is gender.\\\\ 
+We think that the heterogeneity has already been quite adequately represented in the model, since from our perspective, flight choice is indifferent in terms of gender and all the factors besides have been considered.
+\subsection{\small{What issues did you come across while developing your ``best" model?}}
+The biggest issue while developing our ``best" model is how to combine different factors into a valid variable of the linear equation, if not consider the inconvenience of the ``pylogit" package.
+\setcounter{subsection}{88}
+\subsection{\small{How did you use t-tests, likelihood ratio tests, and goodness-of-fit comparisons to arrive at your final model? Show how you used one t-test and how you used one likelihood ratio test to choose between different model specifications. Include your calculations.}}
+\textbf{T-test:}
+Here we will give an example on trying to add another variable ``departure time" and ``arrival time" to the a-prior model, and the outcome of the new model is shown in Equation~(\ref{eq:newModel}) and Table~\ref{tb:newModel}.
+\begin{equation}\label{eq:newModel}
+\begin{array}{ll}
+U_{t}=&\beta_{C}\times Connections+\beta_T\times TravelTime+\beta_F\times Fare+\beta_M\times Membership\\
+& +\beta_d\times Departure+\beta_a\times Arrival
+\end{array}
+\end{equation}
+\vspace{-2.5em}
+\begin{table}[H]
+\centering
+\caption{\label{tb:newModel}T-test results}
+\vspace{5pt}
+\begin{tabularx}{15cm}{|X|X|}
+\hline
+Variable & T-stat\\
+\hline
+Departure time & 2.665\\
+\hline
+Arrival time & 0.324\\
+\hline
+\end{tabularx}
+\end{table}
+\noindent Taking the 5\% significant value where $t_{cr}$=1.96, for the variable ``departure time" we would reject the null hypotheses that ``$\beta_d$=0, but for the variable ``arrival time" we cannot reject the null hypotheses. Therefore we would include the first variable in the model and exclude the other.\\\\
+\textbf{Likelihood-ratio-test:}
+The original a-priori model has generous coefficients because the alternatives are all itineraries. To verify this, we then do the likelihood ratio tests on those variables and here is an example for the variable ``connections”. 
+\begin{equation}\label{eq:unrestrictedModel}
+\begin{array}{ll}
+U_{l1}=&\beta_{C1}\times Connections+\beta_T\times TravelTime+\beta_F\times Fare+\beta_M\times Membership\\
+U_{l2}=&\beta_{C2}\times Connections+\beta_T\times TravelTime+\beta_F\times Fare+\beta_M\times  Membership
+\end{array}
+\end{equation}
+Equation~(\ref{eq:unrestrictedModel}) is the unrestricted model, the null hypothesis of which is ``$\beta_{C1}=\beta_{C2}$".\\\\
+Now Let us compare this model with the a-priori model. The likelihood-ratio test statistic for the null hypothesis of generic attributes is given by:
+\begin{equation}
+\chi^2=-2(L(\hat{\beta_G})-L(\hat{\beta_{AS}}))=-2(-3968.984+3964.356)=9.256
+\end{equation}
+ Since $\chi^2>\chi_C^2=5.991$, we can reject the null htpothesis. So in the refined model the coefficient of the variable ``connections" remains to be alternative specific.\\\\
+\textbf{Goodness of fit comparisons:} The statistic we pick as a criteria for goodness-of-fit comparisons is the adjusted likelihood ratio index ($\overline{\rho}^2$). Based on the given equation, a higher index indicates a better fit. So while exploring different specifications, the policy is to always pick one with higher index. For the four models mentioned above we have indexes listed in the Table~\ref{tb:4Model}.
+\begin{table}[H]
+	\centering
+	\caption{\label{tb:4Model}Four models comparision}
+	\vspace{5pt}
+	\begin{tabularx}{15cm}{|X|X|}
+		\hline
+		Model $U_a$ & $\overline{\rho}^2$\\
+		\hline
+		A-priori hypotheses $U_a$ & 0.184\\
+		\hline
+		$U_t$ for t-test & 0.184\\
+		\hline
+		$U_{l1}/U_{l2}$ for likelihood-ratio-test & 0.185\\
+		\hline
+		``best" model $U_{b1}/U_{b2}$ & 0.227\\
+		\hline
+	\end{tabularx}
+\end{table}
+\noindent According to Table~\ref{tb:4Model}, currently the best model can reach 0.227 in terms of $\overline{\rho}^2$.
+
+\section{Research Project}
+\subsection{\small{As a binary choice problem, what would be your dependent variable?}}
+\textbf{Research question:} How will driving costs influence the choice of transportation mode?\\\\
+First let us frame the research problem in terms of a binary choice, and be specific about the transportation mode. Let us say, whether driving costs at Berkeley will influence a Berkeley's graduate student's choice on driving or riding a bike to campus everyday, assuming the distance is fair enough and there is no other transportation mode (e.g., no transit, no BART, and too far to walk). Then the dependent variables will be \{$B$, $C$\}, where $B$ is to choose riding a bike, and $C$ is to choose driving a car.
+\subsection{\small{What independent variables do you think influence the choice?}}
+The independent explanatory variables include parking fee, fuel cost, bike cost, maintenance cost, time cost, traffic condition, whether there are hills between campus and home of the decision maker, characteristics of the decision maker, financial status of the decision maker, and physical condition of the decision maker.
+\subsection{\small{Specify the utilities of the two alternatives.}}
+The utilities of the two alternatives are shown in Equation~(\ref{eq:p2utilities})
+\begin{equation}\label{eq:p2utilities}
+\begin{array}{ll}
+U_B&=\beta_0+\beta_3X_3+\beta_5X_5+\beta_7X_7+\beta_8X_8\\
+U_C&=\beta_1X_1+\beta_2X_2+\beta_4X_4+\beta_5X_5+\beta_6X_6+\beta_9X_9+\beta_{10}X_{10}
+\end{array}
+\end{equation}
+\textbf{Variables specification:}\\
+$\bf{X_1}$\textbf{:} parking fee, which can be specified as money spent on parking every month.\\
+$\bf{X_2}$\textbf{:} fuel cost, similarly can be specified as money spent on car fuel every month.\\
+$\bf{X_3}$\textbf{:} bike cost (money spent on the bike).\\
+$\bf{X_4}$\textbf{:} maintenance cost. The cost for car maintenance every month (parking and fuel are not included).\\
+$\bf{X_5}$\textbf{:} time cost. The average time spent getting to the campus everyday.\\
+$\bf{X_6}$\textbf{:} traffic condition, which can be specified as the average traffic density of the regular route to campus.\\
+$\bf{X_7}$\textbf{:} hills, which can be specified as the length of the road that has a slope angle greater than ${10^\text{o}}$.
+$\bf{X_8}$\textbf{:} characteristics, which can be specified as the level of patience (0--5; ``5" is the most patient).\\
+$\bf{X_9}$\textbf{:} financial status (0--5; ``5" has the best financial status).\\
+$\bf{X_{10}}$\textbf{:} physical condition (0--5; ``5" has the best physical condition).
+\subsection{\small{What are your a priori expectations of the coefficients for each specified variable?}}
+$\bf{\beta_0}$ is the alternative specific constant, which captures the difference of $U_B$ and $U_C$ when all else are equal.
+$\bf{\beta_1}$ is a negative number.\\
+$\bf{\beta_2}$ is a negative number.\\
+$\bf{\beta_3}$ is a negative number.\\
+$\bf{\beta_4}$ is a negative number.\\
+$\bf{\beta_5}$ is a negative number.\\
+$\bf{\beta_6}$ is a negative number.\\
+$\bf{\beta_7}$ is a negative number.\\
+$\bf{\beta_8}$ is a positive number.\\
+$\bf{\beta_9}$ is a positive number.\\
+$\bf{\beta_{10}}$ is a positive number
+\subsection{\small{How are you addressing the research question using the model specification?}}
+For our research question, we can use the hypothesis testing. The null hypothesis will be that the driving costs will mot influence a Berkeley's graduate student's mode choice, and the alternative hypothesis will be the opposite. Then we use t-test and p-value method to test coefficients $\beta_1$, $\beta_2$, and $\beta_4$ (which corresponds to the driving cost variables $X_1$, $X_2$, and $X_4$). If we reject the null hypothesis, then the driving cost will increase the probability that a decision maker chooses riding a bike. If we fail to reject the null hypothesis, then driving cost may be a irrelevant factor, which has no impact on mode choice. 
+\section{Supplemental Problem}
+For the $n$th shopper:
+\begin{equation}
+\begin{array}{ll}
+U_{1n}=&\beta_1(distance_{1n})+\beta_2ln(size_1)+\epsilon_{1n}\\
+U_{2n}=&\beta_1(distance_{2n})+\beta_2ln(size_2)+\epsilon_{2n}
+\end{array}
+\end{equation}
+Since $\epsilon_1$ and $\epsilon_2$ -- iid EV, then:
+\begin{equation}
+\begin{array}{ll}
+P_n(1|X)&=\frac{exp(V_{1n})}{exp(V_{1n})+exp(V_{2n})}\\
+&=\frac{1}{1+exp(V_{2n}-V_{1n})}\\
+&=\frac{1}{1+exp(\beta_1(distance_{2n}-distance_{1n})+\beta_2ln\left(\frac{size_2}{size_1}\right))}
+\end{array}
+\end{equation}
+\begin{equation}
+\begin{array}{ll}
+P_n(2|X)&=\frac{exp(V_{2n})}{exp(V_{1n})+exp(V_{2n})}\\
+&=\frac{1}{1+exp(V_{1n}-V_{2n})}\\
+&=\frac{1}{1+exp(\beta_1(distance_{1n}-distance_{2n})+\beta_2ln\left(\frac{size_1}{size_2}\right))}
+\end{array}
+\end{equation}
+Hence, the expected number of trips taken each day to store 1 and store 2 will be:
+\begin{equation}
+\begin{array}{lll}
+E_1&=&\int_{0}^{d_{AB}}\frac{200}{d_{AB}}\times\frac{1}{1+exp(\beta_1(x+d_{BC}+d_{CD}-(x+d_{BC}))+\beta_2ln\left(\frac{size_2}{size_1}\right))}dx+\\
+&&\int_{0}^{\infty}\gamma e^{-\gamma x}\times \frac{1}{1+exp(\beta_1(x-(x+d_{CD}))+\beta_2ln\left(\frac{size_2}{size_1}\right))}dx\\
+&=&\frac{200}{1+exp(\beta_1d_{CD})\left(\frac{size_2}{size_1}\right)^{\beta_2}}+\int_{0}^{\infty}\gamma e^{-\gamma x}\frac{1}{1+exp(-\beta_1d_{CD})\left(\frac{size_2}{size_1}\right)^{\beta_2}}dx
+\end{array}
+\end{equation}
+\begin{equation}
+\begin{array}{lll}
+E_2&=&\int_{0}^{d_{AB}}\frac{200}{d_{AB}}\times\frac{1}{1+exp(\beta_1(x+d_{BC}-(x+d_{BC}+d_{CD}))+\beta_2ln\left(\frac{size_1}{size_2}\right))}dx+\\
+&&\int_{0}^{\infty}\gamma e^{-\gamma x}\times \frac{1}{1+exp(\beta_1(x+d_{CD}-x)+\beta_2ln\left(\frac{size_1}{size_2}\right))}dx\\
+&=&\frac{200}{1+exp(-\beta_1d_{CD})\left(\frac{size_1}{size_2}\right)^{\beta_2}}+\int_{0}^{\infty}\gamma e^{-\gamma x}\frac{1}{1+exp(\beta_1d_{CD})\left(\frac{size_1}{size_2}\right)^{\beta_2}}dx
+\end{array}
+\end{equation}
+Since the only part contains $x$ in the second terms of $E_1$ and $E_2$ is $\gamma e^{-\gamma x}$, we can derive the following equation:
+\begin{equation}
+\begin{array}{ll}
+&\int_{0}^{\infty}\gamma e^{-\gamma x}dx\\
+=&\gamma\int_{0}^{\infty}e^{-\gamma x}dx\\
+=&-e^{-\gamma x}\Huge{|}_0^{\infty}\\
+=&1
+\end{array}
+\end{equation}
+Turns out it is a constant. Hence, the value of $\gamma$ will not affect the expected number of trips.
+\section*{Contributions}
+\textbf{Franklin Zhao:} Part 2 \& 3\\
+\textbf{Ruitong Zhu:} Part 1
+\end{document}
