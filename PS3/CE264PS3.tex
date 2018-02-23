@@ -1,0 +1,181 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry} 
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{float}
+\usepackage{bm}
+%\usepackage[fleqn]{amsmath}
+\usepackage{amssymb,amsmath}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{tabularx}
+\usepackage{diagbox}
+\usepackage{pdfpages}
+\geometry{letterpaper}
+\linespread{1.1}% \geometry{landscape} % rotated page geometry
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\setlength{\droptitle}{-5em}
+\title{CE 264 Problem Set 3: Specification, Estimation, \\and Testing of Multinomial Choice Models}
+\date{22 Feb. 2018} 
+\author{Franklin Zhao (3033030808)\\ Junzhe Shi \ \ \ \  (3033030938)}
+
+\begin{document}
+	
+	\maketitle
+	\renewcommand\theequation{\arabic{equation}}
+	\renewcommand{\figurename}{Fig.}
+	\renewcommand\thesection{Part \arabic{section}}
+	\renewcommand\thesubsection{Question \arabic{subsection}:}
+	\onehalfspacing	
+\section{Model Development}
+\subsection{}
+The utility equations are shown in Equation~(\ref{eq:u1})(\ref{eq:u2})(\ref{eq:u3}). Note that variables are in the same order as shown in Table~\ref{tb:p1}.
+\vspace{-12pt}
+\begin{equation}\label{eq:u1}
+\vspace{-12pt}
+U_{Train}=\beta_1\times X_1 + \beta_2\times X_2 +\beta_3\times X_3+\beta_5\times X_5
+\end{equation}
+\begin{equation}\label{eq:u2}
+\vspace{-8pt}
+U_{Swissmetro}=\beta_1\times X_1 +\beta_3\times X_3+\beta_4\times X_4+\beta_5\times X_5+\beta_6\times X_6+\beta_7\times X_7+\beta_8\times X_8
+\end{equation}
+\begin{equation}\label{eq:u3}
+U_{Car}=\beta_0+\beta_1\times X_1
+\end{equation}
+
+\begin{table}[H]
+\vspace{-0.6cm}
+\centering
+\caption{\label{tb:p1}Variables for our ``best" model}
+\vspace{5pt}
+\begin{tabular}{>{\raggedleft}m{6.8cm}>{\centering}m{2.1cm}>{\centering}m{1.4cm}ccm{1.7cm}}      
+\hline                                                
+\textbf{Variables description} & \textbf{Parameter estimation} & \textbf{Standard error} & \textbf{T-stats} & \textbf{P-values} & \textbf{Utility equation}   \\
+\hline
+\textbf{Alternative specific constant (Car)}                                                                 &      -0.6292 &        0.081     &    -7.727  &         0.000        &       (3)-$\beta_0$     \\\hline  
+\textbf{Travel Time, units:hrs (Train and Car)}                                  &      -0.8615  &        0.028     &   -30.894  &         0.000        &       (1)(3)-$X_1$     \\\hline  
+\textbf{Travel Time, units:hrs (Swissmetro)}                                     &      -0.7713  &        0.037     &   -20.634  &         0.000        &       (2)-$X_1$     \\\hline  
+\textbf{Headway, units:hrs (Train)}                                              &      -0.3619  &        0.047     &    -7.697  &         0.000        &       (1)-$X_2$    \\\hline  
+\textbf{Travel Cost, units:CHF (Train)}                                          &      -0.0172  &        0.001     &   -24.068  &         0.000        &       (1)-$X_3$     \\\hline  
+\textbf{Travel Cost, units:CHF (Swissmetro)}                                     &      -0.0097  &        0.000     &   -23.695  &         0.000        &       (2)-$X_3$     \\\hline  
+\textbf{Traveler's income threshold, 0=more than 1000 CHF per year, 1=otherwise} &      -0.7056  &        0.096     &    -7.367  &         0.000        &       (2)-$X_4$     \\\hline  
+\textbf{Measure of luggage, 0=none, 1=one piece, 3=several pieces (Train)}       &       0.5064  &        0.057     &     8.852  &         0.000        &        (1)-$X_5$     \\\hline  
+\textbf{Measure of luggage, 0=none, 1=one piece, 3=several pieces (Swissmetro)}  &       0.1592  &        0.045     &     3.542  &         0.000        &        (2)-$X_5$     \\\hline  
+\textbf{First class traveler, 0=no, 1=yes}                                       &       0.2241  &        0.048     &     4.715  &         0.000        &        (2)-$X_6$     \\\hline  
+\textbf{Who paid for the ticket, 0=not known, 1=self, 2=employer, 3 = half-half} &       0.3447  &        0.034     &    10.172  &         0.000        &        (2)-$X_7$     \\\hline  
+\textbf{Whether the ticket is free, 0=no, 1=yes}                                 &       1.6154  &        0.171     &     9.424  &         0.000        &        (2)-$X_8$     \\\hline  
+\end{tabular}
+\end{table}
+The regression results are shown in Table~\ref{tb:reg}.
+\begin{table}[H]
+	\centering
+	\caption{\label{tb:reg}Regression results}
+	\vspace{5pt}
+\begin{tabular}{|l|c|l|c|}
+\hline
+\textbf{Dep. Variable:} &          CHOICE         & \textbf{  No. Observations:  } &    10,719    \\\hline
+\textbf{Model:}         & Multinomial Logit Model & \textbf{  Df Residuals:      } &    10,707    \\\hline
+\textbf{Method:}        &           MLE           & \textbf{  Df Model:          } &      12      \\\hline
+\textbf{Date:}          &     Thu, 22 Feb 2018    & \textbf{  Pseudo R-squ.:     } &    0.253     \\\hline
+\textbf{Time:}          &         14:31:08        & \textbf{  Pseudo R-bar-squ.: } &    0.252     \\\hline
+\textbf{AIC:}           &        16,600.296       & \textbf{  Log-Likelihood:    } &  -8,288.148  \\\hline
+\textbf{BIC:}           &        16,687.653       & \textbf{  LL-Null:           } & -11,093.627  \\\hline
+\end{tabular}
+\end{table}
+\subsection{}
+Apart from the variables in the final model, we expected that ``travel purpose" and the ``dummy variables" for train, Swissmetro and car should also be appeared in the model, where the coefficent of ``travel purpose" should be a negative number if we put it into the train utility equation. However, when adding ``travel purpose", the coefficient turned out to be really small, and the final log-likelihood went down again. As for the ``dummy variables", the coefficients of which were not large either, and they also had negative impact on the final log-likelihood. Also, they did not pass the t-stats test, so we had to ignore them.
+\subsection{}
+Yes, it does generally. For example, people are likely to choose the mode with less travel time and cost. Also, people love to choose the mode if the ticket is free. If the decision maker had more luggages, he/she would prefer to choose the train mode. Finally, low-income people are more likely to choose cheap modes generally.
+\subsection{}
+From Table~\ref{tb:p1} we can find out that ``whether free ticket" variable has the most significant impact on people's mode choice. It really makes sense. Who does not prefer a free ticket? Also, travel time and cost, income, and luggage variables, the coefficient absolute value of which are all  above $0.5$, also have great impacts on the mode choice. It also makes sense since again, people are likely to choose the mode with less travel time and cost. Train mode is preferred if people have more luggages.  
+\subsection{}
+The biggest issue we came accross was that if we put two alternative specific constants (ASC), one of them would always fail the t-stats test, no matter train, Swissmetro, or Car. We thought it should be correct that two ASCs are in the model, but it turned out things did not work out (p-value was about 0.5 so must be ignored). Other issues include encountered singular matrices problems when choosing inappropriate variables, and tried really hard to improve the log-likelihood.  
+\subsection{}
+We used t-stats test to decide whether we should include a variable or not, even if the coefficients of which is large. Taking the 5\% significant value, for p-values that are less than 0.05, we would reject the null hypothesis and include the coressponding variable; for p-values that are really large (i.e., 0.15 or more), we would definitely exclude those variables no matter how significant their impacts are; for p-values that are slightly exceed the 0.05 cut-off value, we would think about it considering their impacts on the general mode choice.
+\subsection{}
+For example, the ``travel cost" variable should be alternative-specific. The test was simple, just set the variable to be generic and alternative-specific sperately, and excute the code to see the result of the log-likelihood. When we implemented this , it turned out that the log-likelihood is much higher when we set the ``travel cost" to be an alternative-specific variable. Together with other tests, we concluded that the use of some alternative-specific coefficients is justified for inproving the model.
+\newpage
+\subsection*{PyLogit Script for the best model specification:}
+\lstinputlisting[language=Python]{bestmodel.py}
+\begin{Verbatim}
+Log-likelihood at zero: -11,093.6273
+Initial Log-likelihood: -11,093.6273
+Estimation Time for Point Estimation: 0.20 seconds.
+Final log-likelihood: -8,288.1096
+\end{Verbatim}
+\newpage
+\section{Research Project}
+\subsection{}
+First let us frame the research problem in terms of a multinomial choice, and be specific about the transportation mode. Let us say, whether driving costs at Berkeley will influence a Berkeley's graduate student's choice on driving, taking public transit or riding a bike to campus everyday, assuming the distance is fair enough and there is no other transportation mode (e.g., no BART, and too far to walk). Then the dependent variables will be \{$B$, $C$, $T$\}, where $B$ is to choose riding a bike, $C$ is to choose driving a car, and $T$ is to choose taking public transit. Hence, we now change the problem from a binary choice problem to a multinomial choice problem.
+\subsection{}
+\textbf{Variables specification:}\\
+$\bf{X_1}$\textbf{:} parking fee, which can be specified as money spent on parking every month.\\
+$\bf{X_2}$\textbf{:} fuel cost, similarly can be specified as money spent on car fuel every month.\\
+$\bf{X_3}$\textbf{:} bike cost (money spent on the bike).\\
+$\bf{X_4}$\textbf{:} public transit cost, specified as money spent in taking public transit every month.\\
+$\bf{X_5}$\textbf{:} maintenance cost. The cost for car maintenance every month (parking and fuel are not included).\\
+$\bf{X_6}$\textbf{:} time cost. The average time spent getting to the campus everyday.\\
+$\bf{X_7}$\textbf{:} traffic condition, which can be specified as the average traffic density of the regular route to campus.\\
+$\bf{X_8}$\textbf{:} hills, which can be specified as the length of the road that has a slope angle greater than ${10^\text{o}}$.
+$\bf{X_9}$\textbf{:} characteristics, which can be specified as the level of patience (0--5; ``5" is the most patient).\\
+$\bf{X_{10}}$\textbf{:} financial status (0--5; ``5" has the best financial status).\\
+$\bf{X_{11}}$\textbf{:} physical condition (0--5; ``5" has the best physical condition).
+\subsection{}
+The utilities of the three alternatives are shown in Equation~(\ref{eq:p2utilities})
+\begin{equation}\label{eq:p2utilities}
+\begin{array}{ll}
+U_B&=\beta_B+\beta_3X_3+\beta_6X_6+\beta_8X_8+\beta_9X_9\\
+U_C&=\beta_1X_1+\beta_2X_2+\beta_5X_5+\beta_6X_6+\beta_7X_7+\beta_{10}X_{10}+\beta_{11}X_{11}\\
+U_T&=\beta_T+\beta_4X_4+\beta_6X_6+\beta_7X_7
+\end{array}
+\end{equation}
+where $U_B$, $U_C$, and $U_T$ are utilities of bike, car, and transit; $X$s are the indenpendent variables specified in Question 2; $\beta$s are the corresponding coefficients (model parameters). 
+\subsection{}
+$\bf{\beta_B}$ and  $\bf{\beta_T}$ are alternative specific constants, which capture the difference of two utilities when all else are equal.\\
+$\bf{\beta_1}$ is a negative number.\\
+$\bf{\beta_2}$ is a negative number.\\
+$\bf{\beta_3}$ is a negative number.\\
+$\bf{\beta_4}$ is a negative number.\\
+$\bf{\beta_5}$ is a negative number.\\
+$\bf{\beta_6}$ is a negative number.\\
+$\bf{\beta_7}$ is a negative number.\\
+$\bf{\beta_8}$ is a negative number.\\
+$\bf{\beta_9}$ is a positive number.\\
+$\bf{\beta_{10}}$ is a positive number.\\
+$\bf{\beta_{11}}$ is a positive number
+\subsection{}
+For our research question, we can use the hypothesis testing. The null hypothesis will be that the driving costs will mot influence a Berkeley's graduate student's mode choice, and the alternative hypothesis will be the opposite. Then we use t-stats method to test coefficients $\beta_1$, $\beta_2$, and $\beta_5$ (which corresponds to the driving cost variables $X_1$, $X_2$, and $X_5$). If we reject the null hypothesis, then the driving cost will increase the probability that a decision maker chooses riding a bike or transit rather than driving. If we fail to reject the null hypothesis, then driving cost may be a irrelevant factor, which has no impact on mode choice. 
+\includepdf[pages=-]{part3.pdf}
+\end{document}
