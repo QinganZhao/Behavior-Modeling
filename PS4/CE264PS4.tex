@@ -1,0 +1,332 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry} 
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{float}
+\usepackage{bm}
+%\usepackage[fleqn]{amsmath}
+\usepackage{amssymb,amsmath}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{tabularx}
+\usepackage{diagbox}
+\usepackage{pdfpages}
+\geometry{letterpaper}
+\linespread{1.1}% \geometry{landscape} % rotated page geometry
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\setlength{\droptitle}{-5em}
+\title{CE 264 Problem Set 4: Forecasting}
+\date{6 Mar. 2018} 
+\author{Chenglong Li \ (3032129387)\\ Junzhe Shi \ \ \ \  (3033030938)\\ Franklin Zhao (3033030808)}
+
+\begin{document}
+	
+	\maketitle
+	\renewcommand\theequation{\arabic{equation}}
+	\renewcommand{\figurename}{Fig.}
+	\renewcommand\thesection{Part \arabic{section}}
+	\renewcommand\thesubsection{Task \arabic{subsection}:}
+	\renewcommand\thesubsubsection{Question (\alph{subsubsection}):}
+	\onehalfspacing	
+\section{Forecasting}
+\subsection{}
+First let's estimate the provided model specification. Results are shown in Table~\ref{tb:1.1} and~\ref{tb:1.2}.  
+\begin{table}[H]
+	\centering
+	\caption{\label{tb:1.1}Estimation result (part 1)}
+	\vspace{4pt}
+	\begin{tabular}{|l|c|l|c|}
+		\hline
+		\textbf{Dep. Variable:} &          choice         & \textbf{  No. Observations:  } &    9,999     \\\hline
+		\textbf{Model:}         & Multinomial Logit Model & \textbf{  Df Residuals:      } &    9,984     \\\hline
+		\textbf{Method:}        &           MLE           & \textbf{  Df Model:          } &      15      \\\hline
+		\textbf{Date:}          &     Mon, 05 Mar 2018    & \textbf{  Pseudo R-squ.:     } &    0.372     \\\hline
+		\textbf{Time:}          &         23:43:55        & \textbf{  Pseudo R-bar-squ.: } &    0.371     \\\hline
+		\textbf{AIC:}           &        16,071.616       & \textbf{  Log-Likelihood:    } &  -8,020.808  \\\hline
+		\textbf{BIC:}           &        16,179.770       & \textbf{  LL-Null:           } & -12,766.793  \\\hline
+	\end{tabular}
+\end{table}
+\begin{table}[H]
+\centering
+\caption{\label{tb:1.2}Estimation result (part 2)}
+\vspace{5pt}
+\begin{tabular}{|>{\raggedleft}m{6cm}|c|c|c|c|c|c|}      
+\hline                                                
+\textbf{Variables} & \textbf{coef} & \textbf{Std err} & \textbf{z} & \textbf{P} $\bf{>|z|}$ & \textbf{[0.025}  & \textbf{0.975]} \\\hline
+\textbf{ASC SR}                                         &      -2.1158  &        0.049     &   -43.217  &         0.000        &       -2.212    &       -2.020     \\\hline 
+\textbf{ASC Walk}                                       &      -2.5376  &        0.187     &   -13.546  &         0.000        &       -2.905    &       -2.170     \\\hline 
+\textbf{ASC Bike}                                       &      -3.4882  &        0.185     &   -18.852  &         0.000        &       -3.851    &       -3.126     \\\hline 
+\textbf{ASC WT}                                         &       1.5572  &        0.154     &    10.133  &         0.000        &        1.256    &        1.858     \\\hline 
+\textbf{ASC DT}                                         &      -0.8970  &        0.183     &    -4.893  &         0.000        &       -1.256    &       -0.538     \\\hline 
+\textbf{In-Vehicle Travel Time, units:hrs (DA, SR, WT)} &      -1.9053  &        0.094     &   -20.306  &         0.000        &       -2.089    &       -1.721     \\\hline 
+\textbf{Bike Time, units:hrs (Bike)}                    &      -4.7177  &        0.361     &   -13.058  &         0.000        &       -5.426    &       -4.010     \\\hline 
+\textbf{Walk Time, units:hrs (Walk)}                    &      -1.1014  &        0.122     &    -9.012  &         0.000        &       -1.341    &       -0.862     \\\hline 
+\textbf{In-Vehicle Travel Time, \\units:hrs, (DT)}        &      -1.2238  &        0.121     &   -10.149  &         0.000        &       -1.460    &       -0.987     \\\hline 
+\textbf{Walk Time, units:hrs, (WT)}                     &      -3.1670  &        0.227     &   -13.968  &         0.000        &       -3.611    &       -2.723     \\\hline 
+\textbf{Walk Time, units:hrs, (DT)}                     &      -5.2712  &        0.384     &   -13.732  &         0.000        &       -6.024    &       -4.519     \\\hline 
+\textbf{Waiting Time, \\units:hrs, (WT and DT)}           &      -2.6341  &        0.225     &   -11.705  &         0.000        &       -3.075    &       -2.193     \\\hline 
+\textbf{Cost: Under \$2}                                &      -1.2832  &        0.064     &   -20.084  &         0.000        &       -1.408    &       -1.158     \\\hline 
+\textbf{Cost: (2 - 7)\$}                                &      -0.3359  &        0.019     &   -17.883  &         0.000        &       -0.373    &       -0.299     \\\hline 
+\textbf{Cost: Above \$7}                                &      -0.0781  &        0.010     &    -7.976  &         0.000        &       -0.097    &       -0.059   \\\hline 
+\end{tabular}
+\end{table}
+\newpage
+\subsubsection{}
+In this model, the specification takes into account the alternative specific constants (ASC), in-vehicle travel time, bike time, walk time, waiting time and cost. ASCs include shared ride, walk, bike, walk to transit, and drive to transit. The coefficient for in-vehicle travel time is alternative specific for drive-transit mode, while generic for drive alone, shared ride, and walk to transit mode. Bike time is only considered in bike mode. For walk time, the coefficient is alternative specific for walk, walk to transit, and drive to transit mode. For waiting time, the coefficient is generic for walk to transit and drive to transit mode. For cost, the coefficient is alternative specific, and divided into three parts based on two thresholds \$2 and \$7.
+\subsubsection{}
+The estimation result makes sense since all these selected variables should have some impact on the mode choice based on our intuition. Apart from ASCs, the sign (i.e., positive or negative) of the coefficients also makes sense since we all notice that time and cost both have negative impact on the mode choice (we all prefer the mode with less time and cost). Also, the P-values are all close to 0, indicating that we should reject the null hypothesis and the selected variables are significant.
+\subsubsection{} 
+As we discussed in the previous question, the specification is resonable. Now let's take a look at the travel cost. Travel cost is divided into three parts: under \$2, \$2-7, and above \$7. The thresholds \$2 and \$7 would capture the sensitivity of different levels of cost. As we can see from the result, it is interesting that lower cost range has actually more impact on the mode choice. We can assume that the lower cost, the more sensitive a decision maker will be. Such variables may also reflect the impact of income, since those thresholds may also be considered as income level.
+\subsubsection{}
+We have discussed about this. If we specified the model ourselves, we would take into account the access time and egree time since these variables also reflect the ``time consuming" for the modes, which we think is important.
+\newpage
+\subsection{}
+\subsubsection{}
+The forecasting results are shown in Table~\ref{tb:fc} and Figure~\ref{fig:fc}.
+\begin{table}[H]
+	\centering
+	\caption{\label{tb:fc}Forecasting results (probabilities)}
+	\vspace{5pt}
+	\begin{tabular}{|c|c|c|c|c|c|c|}      
+		\hline                                                
+		\textbf{Toll(\$)}  &  \textbf{Drive alone}  &  \textbf{Shared ride} &      \textbf{Walk} &      \textbf{Bike} &  \textbf{Walk transit} &  \textbf{Drive transit} \\\hline
+		\textbf{0}       &     0.631724 &      0.224905 &  0.017962 &  0.014922 &      0.070864 &       0.039549 \\\hline
+		\textbf{1}       &     0.625117 &      0.220704 &  0.019581 &  0.015552 &      0.078338 &       0.040634 \\\hline
+		\textbf{2}       &     0.621775 &      0.218869 &  0.020270 &  0.015827 &      0.081754 &       0.041431 \\\hline
+		\textbf{3}       &     0.619725 &      0.217952 &  0.020531 &  0.015984 &      0.083658 &       0.042077 \\\hline
+		\textbf{4}       &     0.617890 &      0.217331 &  0.020741 &  0.016118 &      0.085213 &       0.042632 \\\hline
+		\textbf{5}       &     0.616337 &      0.216945 &  0.020907 &  0.016222 &      0.086398 &       0.043116 \\\hline
+		\textbf{6}       &     0.615252 &      0.216656 &  0.021029 &  0.016280 &      0.087142 &       0.043567 \\\hline
+		\textbf{7}       &     0.614468 &      0.216474 &  0.021077 &  0.016307 &      0.087597 &       0.044004 \\\hline
+		\textbf{8}       &     0.613772 &      0.216327 &  0.021099 &  0.016326 &      0.087968 &       0.044433 \\\hline
+		\textbf{9}       &     0.613098 &      0.216185 &  0.021120 &  0.016345 &      0.088324 &       0.044855 \\\hline
+		\textbf{10}      &     0.612445 &      0.216046 &  0.021139 &  0.016362 &      0.088664 &       0.045270 \\\hline
+	\end{tabular}
+\end{table}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{fc.png}
+	\caption{Forecasting results visualization}\label{fig:fc}	
+\end{figure}
+\subsubsection{}
+\begin{itemize}[leftmargin=*]
+\item The influence of toll on drive to transit (DT) is ignored here. On the one hand, this part has very little influence, as people usually choose the public transportation station closest to their origin. Therefore it is very unlikely that they will have to pass a toll point to access a station. On the other hand, this part is hard to investigate, as we do not have very adequate information about the destination of person’s driving route. 
+\item For shared driving, only two persons share a ride, instead of three or four. This will be used in task 3, as a conservative consideration for estimating the reduction of CO$_2$ emission.
+\item The assumptions stated in the problem statement.
+\end{itemize}
+\subsubsection{}
+As we can see from Figure~\ref{fig:fc}, as toll increases, the probability of drive alone and share ride decreases, since as the congestion status increases, people tend to switch driving to other modes. Hence, it is also resonable to notice that the probablities of choosing other modes are increasing, including drive-transit since such a mode could ameliorate the effect of congestion. However, even though driving modes are decreasing and other modes are increasing, the probabilities of driving modes are still much higher than others, at least in our toll domain. This is probably because the congestion level is not high enough to affect the mode choice of decision makers in this scenario.
+\ \\
+\subsection{}
+\subsubsection{}
+The estimation results are shown in Table~\ref{tb:co2} and Figure~\ref{fig:co2}.
+\begin{table}[H]
+	\centering
+	\caption{\label{tb:co2}Estimation results}
+	\vspace{5pt}
+	\begin{tabular}{|c|c|c|c|}      
+		\hline                                                
+		\textbf{Toll (\$)} &  \textbf{Emission (lbs)} &  \textbf{Reduction (lbs)} & \textbf{Percentage (\%)} \\\hline
+		\textbf{0}        &  16770830 &          0 &      0.00 \\\hline
+		\textbf{1}        &  16701468 &      69362 &      0.41 \\\hline
+		\textbf{2}        &  16656403 &     114427 &      0.68 \\\hline
+		\textbf{3}        &  16619952 &     150878 &      0.90 \\\hline
+		\textbf{4}        &  16586270 &     184560 &      1.10 \\\hline
+		\textbf{5}        &  16556207 &     214623 &      1.28 \\\hline
+		\textbf{6}        &  16530295 &     240535 &      1.43 \\\hline
+		\textbf{7}        &  16506326 &     264504 &      1.58 \\\hline
+		\textbf{8}        &  16483230 &     287600 &      1.71 \\\hline
+		\textbf{9}        &  16460507 &     310323 &      1.85 \\\hline
+		\textbf{10}       &  16438269 &     332561 &      1.98 \\\hline
+	\end{tabular}
+\end{table}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{co2.png}
+	\vspace{-0.5cm}
+	\caption{Forecasting results visualization}\label{fig:co2}	
+\end{figure}
+\subsubsection{}
+The equation of reduction with respect to toll (\$i) is:
+\begin{equation}
+Reduction_i=Emission_0-Emission_i
+\end{equation}
+where $Emission_0$ means no toll. This equation is applicable for both total and individual reduction.\\\\
+The CO$_2$ emission of an individual with respect to toll (\$i) is: 
+\begin{equation}
+Emission_i=0.916\times(Prob_{da,i}+\frac{Prob_{sr,i}}{2})\times distance
+\end{equation}
+where 2 means persons share a ride. Note that the assumption that drive to transit mode is still ignored here.\\\\
+For example, for the first observation:
+\begin{equation}
+\begin{array}{ll}
+Emission_0&=0.916\times\left(Prob_{da,i}+\frac{Prob_{sr,i}}{2}\right)\times distance\\
+&=0.916\times\left(0.700+\frac{0.300}{2}\right)\times 11.2=8.72
+\end{array}
+\end{equation}
+\begin{equation}
+\begin{array}{ll}
+Emission_1&=0.916\times\left(Prob_{da,i}+\frac{Prob_{sr,i}}{2}\right)\times distance\\
+&=0.916\times\left(0.700+\frac{0.300}{2}\right)\times 11.2=8.72
+\end{array}
+\end{equation} 
+which is equal, indicating there is no reduction for observation 1. It is easy to understand, as the toll does not have any influence on this observation.\\\\
+To calculate the total emission, we need to calculate the weighted summation:
+\begin{equation}
+TotalEmission_i=\sum_{observations}Weight\times Emission_i
+\end{equation}
+The results has been shown in part (a).
+\subsection{}
+\subsubsection{}
+We think the answer is yes. Travel time would probably be less as a result of the congestion charge since in that case, people tend to shift modes include driving to other modes. Hence, there will be fewer people driving, which makes travel time less since there will be less congestion.
+\subsubsection{} 
+The mode shares of drive alone and share ride are underestimated and the mode shares of other 4 modes are overestimated. CO$_2$ emission forecasts are overestimated. The reasons are as follows:\\\\
+For modes include driving, the influence of congestion fee on travel time was not considered. Hence, travel time for computing these 2 mode shares should be more than their actual values. Similarly, we can conclude the opposite case in other 4 modes. For CO$_2$ emission forecasts, congestion fee would cause less emission since fewer people would drive.
+\subsection{}  
+Code (MNL-Forecasting.ipynb) is attached in \hyperref[code]{\textbf{Appendix}}.
+\newpage
+\section{Research Project}
+\subsection*{Chenglong's answer:}
+Our group's research project is people's decision on divorcement.
+\subsubsection*{1. Key attributes and characteristics}
+Attributes:\\
+1. availability of different sources (supermarkets, parks)\\
+2. society's acceptance of divorcement\\
+3. safety of surrounding environment\\\\
+Characteristics:\\ 
+1. people's age\\
+2. people's psychological loneliness state.\\
+3. people's income level\\
+4. people's need for help (in the life)
+\subsubsection*{2.}
+stated preferences (SP): We could create some extreme conditions for people to decide. Could have some data about people’s characteristics that are hard to observe (like psychological conditions). We could create lots of conditions for people to consider, therefore increasing the data available. However, data may be a little incongruent with actual behavior. People may be easy to respond divorce, but when the condition is met, people may be careful about divorcement.\\\\
+Revealed preferences (RP): It is the real behavior of people, so no stated error as above. Moreover, other factors that are not initially considered in our investigations are reflected. However, factors like people's psychological loneliness state is hard to observe. Examples of some extreme conditions are hard to find in real world. Conditions may appear that couples live together, but they have divorced.
+\subsubsection*{3.}
+We go to some regions and record the attributes of environments. We could also consult local officials for data about the neighborhood, like the availability of supermarket and recreation facilities. Then we randomly choose residents and ask them about their characteristics as well as marital status. Note that we should select regions that can reflect all kinds of environments, including cities, suburban areas and rural areas.\newpage
+\subsubsection*{4. SP survey}
+1. What is your age?\\
+2. Are you feeling lonely right now?\\
+3. How much money do your earn every year? (Several choices)\\
+4. Do you have any special needs that require someone else’s (like couple) help?\\
+5. Suppose your relationship with your wife/husband is bad (you don't talk to each other for several days). Suppose you do not have a car and supermarkets are quite far away from you (you need to take 2 hour's bus to the nearest supermarket), also there is not library, sports center and park that are within walking distance (2 miles), but the surrounding safety condition of your house is not bad, will you choose divorce?\\
+A. yes;\\
+B. no;\\
+C. don't know, maybe\\
+\subsection*{Junzhe's answer:}
+The research focuses on determining whether the driving cost will influence the ridership of bike. 
+\subsubsection*{1. Key attributes and characteristics}
+Key attributes: parking condition, distance, weather, and geography.\\
+Key characteristics: age, gender, and health condition.
+\subsubsection*{2.}
+Although RP reveals choice behaviors in actual conditions and cognitively congruent with actual behavior, it is hard to be collected in this study.  For example, because only its choice is available, the health conditions of decision makers which are not easily collected by RP.  Besides, RP is too expensive for this study because it is difficult to obtain multiple responses from an individual. SP is the good choice for the study, although some market and personal constraints may not be considered. SP bases on hypothetical scenarios which let repetitive questioning to be easily implemented. Furthermore, these is no measurement errors in the SP. 
+\subsubsection*{3.}
+In order to collect RP data, I will make a survey which lasts a year to include different weather conditions. The survey will be nationwide. People live in different geographies will take the survey. The characteristics of volunteers will be recorded by the survey, and the attributes of the choosing condition will be measured manually. All the alternatives of people’s choices, even including staying at home for extreme weathers, will be recorded.
+\subsubsection*{4. SP survey}
+Questions of people’s characteristics:\\
+Age: 0-20, 20-40, 40-60, $>$60\\
+Gender: female, male\\
+Health conditions: lot of energy, normal, tired, ill\\\\
+Questions of attributes:\\
+The hypothetical situations of different combinations of attributes will be asked in the survey.\\\\ 
+The survey form is shown in Table~\ref{tb:Jsurvey}
+\begin{table}[H]
+	\centering
+	\caption{\label{tb:Jsurvey}Junzhe's survey form}
+	\vspace{5pt}
+	\begin{tabular}{|m{3cm}|m{2.5cm}|m{2.5cm}|m{2.5cm}|m{2.5cm}|}      
+		\hline                                                
+		Time for finding a parking carport &     Distance & If the weather is good & If there is a hill &  Choose bike or others? \\\hline
+		0 - 5 mins &   0- 2 miles &                      Y &                  Y &      \\\hline
+		5 - 10 mins &  2 - 4 miles &                      Y &                  Y &      \\\hline                         
+		$>$10 mins  &  4 - 6 miles &                      Y &                  Y &         \\\hline
+		0 - 5 mins &   0- 2 miles &                      N &                  N &         \\\hline
+		5 - 10 mins &  2 - 4 miles &                      N &                  N &         \\\hline
+		$>$10 mins &  4 - 6 miles &                      N &                  N &           \\\hline
+	\end{tabular}
+\end{table}
+\ \\
+\subsection*{Franklin's answer:}
+Again, my answer for Part 2 in this problem set is based on the same research question in my previous problem sets: Whether driving costs at Berkeley would influence a Berkeley's graduate student's choice on driving, taking public transit or riding a bike to campus everyday (very similar to Junzhe's question). 
+\subsubsection*{1. Key attributes and characteristics}
+Key attributes: parking fee, fuel cost, bike cost, public transit cost, maintenance cost, travel time, traffic condition, and hills.\\\\
+Key characteristics: level of patience, financial status, and physical condition.
+\newpage
+\subsubsection*{2.}
+For SP data, the best thing we may notice is that data can be significantly augmented. For example, in the survey, we could ask people like ``which mode would you choose given condition A/B/C", which is very easy to answer since people do not have to remember something they did or chose. Hence, data augmentation is easy in this case. However, since such data is largely based on people's ``imagination", they might be less convincing than RP data. Also, such data can be easily affected by the Hawthorne Effect.\\\\
+For RP data, it is kind like the ``opposite" of SP data. While such data is more precise and valuable, it is harder to collect since people should have the experience and they are going to remember it.  
+\subsubsection*{3.}
+To collect RP data, we need ``facts". Instead of asking people their mode choices, we can observe and count the number of each chosen mode at the nearest bus stops, parking lots, and the entrance of the campus in the morning. We might also need to collect the traffic condition data from the Internet during certain periods, as well as the geography data (i.e., hills). Most importantly, the price data. Based on these conditions, we should be able to estimate our model. 
+\subsubsection*{4. SP survey}
+1. Do you like driving a car?\\
+A. Yes \ \ \ B. No \ \ \ C. Can't drive or don't possess a car\\\\
+2. Do you like riding a bike?\\
+A. Yes \ \ \ B. No \ \ \ C. Can't ride or don't possess a bike\\\\
+3. Do you like taking a public transit?\\
+A. Yes \ \ \ B. No\\\\
+4. Please rate your level of patience (0-5, ``5" is the most patient).\\
+A. 0 \ \ \ B. 1 \ \ \ C. 2 \ \ \ D. 3 \ \ \ E. 4 \ \ \ F. 5\\\\
+5. Please rate your financial status (0-5, ``5" has the best financial status).\\
+A. 0 \ \ \ B. 1 \ \ \ C. 2 \ \ \ D. 3 \ \ \ E. 4 \ \ \ F. 5\\\\
+6. Please rate your physical condition (0-5, ``5" has the best physical condition).\\
+A. 0 \ \ \ B. 1 \ \ \ C. 2 \ \ \ D. 3 \ \ \ E. 4 \ \ \ F. 5
+\newpage
+\section{Supplemental Problems}
+\subsection*{A)}
+Model 1 is better than Model 2 and 3 since it has better $\rho^2$ and better likelihood compared to Model 2 and 3. Then, we perform a likelihood ratio test:
+\begin{equation}
+-2\times (LModel_1-LModel_4)=-19.6<\chi_{1,0.05}^2
+\end{equation}
+So we conclude that Model 4 does not improve Model 1 significantly. Thus, we prefer Model 1.
+\subsection*{B)}
+\begin{equation}
+\varepsilon=\varepsilon_{2n}-\varepsilon_{1n}
+\end{equation}
+\begin{equation}
+f(\varepsilon)=\left\{
+\begin{array}{lll}
+0&\ \ &V_{1n}-V_{2n}\leq-1\\
+\varepsilon+1&\ \ &-1<V_{1n}-V_{2n}<0\\
+-\varepsilon+1&\ \ &0<V_{1n}-V_{2n}<1\\
+0&\ \ &V_{1n}-V_{2n}\geq 1
+\end{array}
+\right.
+\end{equation}
+\begin{equation}
+P_n(1)=Pr(V_{1n}-V_{2n}\geq \varepsilon_{2n}-\varepsilon_{1n})=\int_{-1}^{-0.5}\varepsilon+1\ d\varepsilon=0.125
+\end{equation}
+\newpage
+\section*{Appendix}\label{code}
+\lstinputlisting[language=Python]{ps4code.py}
+\end{document}
