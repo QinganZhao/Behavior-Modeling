@@ -1,0 +1,181 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry} 
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{float}
+\usepackage{bm}
+%\usepackage[fleqn]{amsmath}
+\usepackage{amssymb,amsmath}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{tabularx}
+\usepackage{diagbox}
+\usepackage{pdfpages}
+\geometry{letterpaper}
+\linespread{1.1}% \geometry{landscape} % rotated page geometry
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\setlength{\droptitle}{-5em}
+\title{CE 264 Problem Set 6: Machine Learning}
+\date{26 Apr. 2018} 
+\author{Jiajian Lu \ \ \ \ \ \ (3033084290)\\Kun Qian \ \ \ \ \ \ (3033030782)\\ Franklin Zhao \ (3033030808)}
+
+\begin{document}
+	
+	\maketitle
+	\renewcommand\theequation{\arabic{equation}}
+	\renewcommand{\figurename}{Fig.}
+	\renewcommand\thesection{Problem \arabic{section}}
+	\renewcommand\thesubsection{\arabic{subsection})}
+	\renewcommand\thesubsubsection{Question (\alph{subsubsection}):}
+	\onehalfspacing	
+
+\section{}
+\subsection{}
+The plot of accuracy vs. training size is shown as follow:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{1a.png}     
+	\caption{Accuracy vs. training size}
+\end{figure}
+\noindent The training accuracy decreases from 0.75 to 0.702 and the testing accuracy increases from 0.67 to 0.68 when the training size increases from 100 to 500. The reason is that when the training size is small, the model can easily fit the training data but hard to predict the test set.\\\\ 
+As the training size increases, training accuracy oscillates and continues to decrease and testing accuracy increases. The reason is that the model captures more information from the data and generalizes better but not flexible enough to fit all the training data.
+\newpage
+\subsection{}
+The plot of average log-likelihood vs. training size is shown as follow:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{1b.png}     
+	\caption{Average log-likelihood vs. training size}
+\end{figure}
+\subsection{}
+The average training log-likelihood and the average testing log-likelihood of the model have the same trend with the training accuracy and testing accuracy. The reason is that average log-likelihood is the criteria for MNL to fit the model while accuracy is the criteria for prediction.
+\subsection{}
+Because the log-likelihood is:
+\begin{equation}
+LL=\sum_{n\in N}\sum_{k\in C_n}I(y_n=k)ln(p(y_n=k))
+\end{equation}
+where N is the total number of respondents, $C_n$ is the choice set of person $n$ and $y_n$ is the actual choice for person $n$.\\\\
+As the training size increases, $LL$ would definitely decrease because $LL$ is confounded by training size. When using the average log-likelihood, the direct effect of training size is eliminated.
+\newpage
+\subsection{}
+Discuss the trends we see in the accuracy and average $LL$ as training size grows. Why does the mean trend behave this way? Why does the standard deviation behave this way?\\\\
+The mean trend for the training accuracy is high and for the testing accuracy is low when the training size is small. Then they converge as the training size increases. The reason is that when the training size is small, the model can easily fit all of them but hard to predict. As the training size grows, the model captures more information from the data and generalizes better but not flexible enough to fit more data which leads to the convergence of the testing accuracy and training accuracy. The mean trend for average $LL$ behaves in this way for the same reason.\\\\
+The standard deviation for training accuracy decreases as training size grows because the accuracy follows normal distribution $N~(\mu,\frac{\sigma}{n})$ as training size increases and the standard deviation will decrease. On the other hand, when the training size increases, the testing size decreases which will results in the increase of standard deviation for testing accuracy. The standard deviation for average $LL$ behaves in this way for the same reason.
+\newpage
+\section{}
+\subsection{k-Nearest Neighbors}
+For kNN, we tuned the hyperparameter $K$ to see the performance of the model and find the best value. The result is shown as follow:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{knn.png}     
+	\caption{K vs. accuracy in kNN}
+\end{figure}
+\noindent From the plot we notice that as $k$ goes up, training accuracy decreases and validation accuracy increases since the model would be overfitting when $k$ is not large enough. However, when $k$ is large enough, increasing $k$ would not make significant change but only increase the computation complexity. In our experiment, the best $k$ in terms of accuracy is 45.
+\subsection{Decision Tree}
+For decision tree, we tuned 2 hyperparameters: one is minimum number of samples split an internal node, the other is the depth. The results are shown as follows:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{tree1.png}     
+	\caption{Minimum number of samples vs. accuracy in decision tree}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{tree2.png}     
+	\caption{Maximum depth vs. accuracy in decision tree}
+\end{figure}
+\noindent For minimum number of samples, it performs similar to $k$ in kNN model as the model would be overfitting when it is small. For maximum depth, there is a bias-variance trade-off when tunning this hyperparameter. Small depth results in underfitting while two much depth results in overfitting. The best number of samples and depth in our model are 88 and 5, respectively.
+\subsection{Random Forest}
+For random forest, we also tuned 2 hyperparameters: one is the number of trees, the other is the depth of the trees. The results are shown as follows:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{forest1.png}     
+	\caption{Number of trees vs. accuracy in random forest}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{forest2.png}     
+	\caption{Maximum depth vs. accuracy in random forest}
+\end{figure}
+\newpage
+\noindent For number of trees, when it is small, adding the number would significantly improve the model performance, and the performance would not improve much when the hyperparameter reaches some point. The depth is roughly the same as the corresponding hyperparameter in decision tree model. The selected best hyperparameters in this model are 27 and 16.
+\subsection{Support Vector Machine}
+For SVM, we only tuned the regularization term $C$. The result is shown as follow:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{svm.png}     
+	\caption{C vs. accuracy in random forest}
+\end{figure}
+\noindent From the result we notice that increasing $C$ would increase the accuracy since the margin is decreasing. However, too large $C$ would result in overfitting and make the model very sensitive. The best value of $C$ in our model is 25.
+\newpage
+\subsection{Highest accuracy of our models}
+All the algorithms we used with their highest accuracy are shown in the following table:
+\begin{table}[H]
+	\caption{Models and their highest accuracy}
+	\centering
+	\begin{tabular}{cc}
+		\hline
+		\textbf{Model}&\textbf{Highest accuracy\ \ \ \ \ \ }\\
+		\hline
+		MNL&0.7\\
+		kNN&0.68\\
+		Decision Tree&0.687\\
+		Random Forest\ \ \ \ \ \ &0.7235\\
+		SVM&0.51\\
+		\hline
+	\end{tabular}
+\end{table}
+\subsection{Discussion}
+Comparing to what we have been doing in the class, what we are doing now is just a single validation for each hyperparameter while in the class we did cross-validation. They are similar since both of them are validation process, which split the data into training set and validation set. However, k-folds cross validation requires split the data into k subsets and each of them can be the validation set in certain step. Hence, the whole data can be evaluated for the model in order to tune the hyperparameters. We would notice the overfitting issue in the plots if we did the cross validation. However, if we only did the single validation like we did in this problem set, some overfitting issues might not be noticed.
+\newpage
+\section{}
+\subsection{}
+The missing set of variables are variables related to the availability of different methods. The first tree misses this variable. (According to the clarification, we know that the second tree used all the parameters to train but didn’t show the cost in the tree.) These two plots are very different because they depend on different variables (one of them doesn’t consider the availability of different methods), so they get very different results. This shows that the missing variable is a very useful one because according to the children nodes of the missing variables, they are divided explicitly into two parts with similar amount. And the further classes turn into pure classes. It’s easy to understand the power of the indicator-availability. Because on a node to decide if a choice is available, we will filter away those unavailable, thus get a relatively purer classification.
+\subsection{}
+Random forest method is expected to perform better under this case. For bagging, sometimes random sampling is not random enough thus will make the tree look similar. Also, stronger predictors will always split the tree in the same way. If the trees look the same, taking average will not reduce the variance. With random forest, we can randomly sample from the features so that will decorrelate trees, as a result strong predictors will not be selected every time and will get different split. 
+\subsection{}
+The meaning of this vector: Because there are 6 choices for people to choose from, the vector indicates the number of people choosing different cases. And \textbf{yes}, we can see that on each leaf, there is a number indicating the corresponding sample amount $n_i$ and the total number of samples are $N$. We can calculate out the probability of distribution through $f_i=\frac{n_i}{N}$.
+\newpage
+\section{}
+With the MNL method, we calculate the probability distribution of outcomes along 100 individuals:
+\begin{equation}
+\left[p(y_n=car),p(y_n=transit)\right]=\left[\frac{e}{e+1},\frac{1}{e+1}\right]
+\end{equation}
+Then we will predict the sample has $\frac{e}{e+1}$ portion choosing car and $\frac{1}{e+1}$ portion choosing transit when they are uniformly drawn from the population.\\\\
+With machine learning method, for every person, we calculate his/her choice probability:
+\begin{equation}
+\left[p(y_n=car),p(y_n=transit)\right]=\left[\frac{e}{e+1},\frac{1}{e+1}\right]
+\end{equation}
+Then we will predict this person choose car since $p(y_n=car)$ is the highest. Therefore, for a sample of 100 individual, we all predict them choosing car with machine learning method.
+\end{document}
